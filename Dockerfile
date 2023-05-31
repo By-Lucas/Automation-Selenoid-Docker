@@ -34,4 +34,4 @@ COPY . .
 ENV PYTHONUNBUFFERED=1
 
 # Comando para iniciar seu script
-CMD ["python", "main.py"]
+CMD ["python", "main.py", "--selenoid-uri", "http://selenoid:4444"]

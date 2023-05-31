@@ -4,8 +4,8 @@ from selenium import webdriver
 import undetected_chromedriver as uc
 
 
-HOST = "selenoid"
-#HOST = "localhost"
+#HOST = "selenoid"
+HOST = "localhost"
 #HOST = "172.17.0.2"
 
 def test_firefox():
@@ -22,51 +22,19 @@ def test_firefox():
 def test_chrome():
     logger.info('Iniciando bot Google')
     
-    capabilities = {
-        "browserName": "chrome",
-        "browserVersion": "",
-        "selenoid:options": {
-            "enableVideo": False
-        }
-    }
-
-    driver = webdriver.Remote(
-        command_executor='http://{}:4444/wd/hub'.format(HOST),
-        desired_capabilities=capabilities)
+    options = webdriver.ChromeOptions()
+    chrome = webdriver.Remote(command_executor='http://{}:4444/wd/hub'.format(HOST),options=options)
     
-    driver.get('https://www.google.com')
-    print('chrome', driver.title)
+    chrome.get('https://www.google.com')
+    print('chrome', chrome.title)
+    chrome.quit()
     
-    driver.quit()
-    
-
-
 
 def get_ssid_and_cookies():
     logger.info('Iniciando bot')
     
-    options = uc.ChromeOptions()
-    #options.add_argument('--headless')
-    options.add_argument('--no-sandbox')
-    options.add_argument('--disable-dev-shm-usage')
-    options.add_argument('--disable-blink-features=AutomationControlled')
-
-    capabilities = {
-        'goog:loggingPrefs': {'performance': 'ALL'},
-        'browserName': 'chrome',
-        'version': 'latest',
-        'enableVNC': True,
-        'enableVideo': True,
-        'goog:chromeOptions': options.to_capabilities()
-    }
-
-    # driver = webdriver.Remote(
-    #     command_executor=f'172.17.0.2:4444/wd/hub',
-    #     desired_capabilities=capabilities
-    # )
-    
     options = webdriver.ChromeOptions()
-    driver = webdriver.Remote(command_executor='http://{}:4444/wd/hub'.format(HOST), options=options)
+    driver = webdriver.Remote(command_executor='http://{}:4444/wd/hub'.format(HOST),options=options)
 
     driver.get('https://www.google.com')
     logger.success(driver.title)
